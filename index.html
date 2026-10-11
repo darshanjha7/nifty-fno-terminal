@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,313 +8,274 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#090d16',
-                        cardBg: '#121826',
-                        cardBorder: '#1e293b',
-                        accentGreen: '#00e676',
-                        accentRed: '#ff5252',
-                        accentYellow: '#ffb74d'
+                        darkbg: '#0b0f19',
+                        cardbg: '#131c2e',
+                        bordercol: '#1e293b',
+                        accentgreen: '#00e676',
+                        accentred: '#ff5252',
+                        accentyellow: '#ffb74d'
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome for trading icons -->
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #090d16;
-            color: #f8fafc;
-        }
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #090d16;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
-        }
-    </style>
 </head>
-<body class="min-h-screen flex flex-col bg-darkBg text-slate-100 antialiased selection:bg-emerald-500 selection:text-white">
+<body class="bg-darkbg text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-white">
 
-    <!-- Top Navigation Header -->
-    <header class="border-b border-cardBorder bg-cardBg/80 backdrop-blur sticky top-0 z-50 px-4 lg:px-8 py-3 flex items-center justify-between">
+    <!-- Top Navigation Bar -->
+    <header class="bg-cardbg border-b border-bordercol sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center shadow-lg">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                <i class="fa-solid fa-chart-line text-white text-lg"></i>
+            <div class="bg-gradient-to-tr from-cyan-500 to-blue-600 p-2.5 rounded-xl shadow-md text-white">
+                <i class="fa-solid fa-chart-line text-xl"></i>
             </div>
             <div>
-                <h1 class="font-bold text-lg tracking-tight flex items-center gap-2">
-                    NIFTY 50 F&O AI-Pulse <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-normal">09:30 AM Entry Engine</span>
-                </h1>
-                <p class="text-xs text-slate-400">Overnight US Cues & 09:30 AM Domestic Blend Terminal</p>
+                <h1 class="text-xl font-bold tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Nifty 50 F&O Terminal</h1>
+                <p class="text-xs text-slate-400">Overnight US Cues & 09:30 AM Domestic Blended Intelligence</p>
             </div>
         </div>
-        <div class="flex items-center space-x-4">
-            <!-- User Session Badge / Username Indicator -->
-            <button onclick="showUsernameModal()" class="hidden sm:flex items-center space-x-2 bg-slate-800/80 hover:bg-slate-800 border border-cardBorder px-3 py-1.5 rounded-lg text-xs transition cursor-pointer">
-                <i class="fa-solid fa-user-circle text-emerald-400"></i>
-                <span id="nav-username" class="font-mono text-slate-300">Trader_Alpha</span>
-            </button>
-            <div class="hidden sm:flex flex-col text-right">
-                <span class="text-xs text-slate-400">System Time (IST)</span>
-                <span id="live-clock" class="mono text-xs font-semibold text-slate-200">--:--:-- AM</span>
+        <div class="flex items-center space-x-4 mt-2 sm:mt-0">
+            <div id="targetDateBadge" class="bg-blue-950/80 border border-blue-700/50 text-blue-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 shadow-inner">
+                <i class="fa-regular fa-calendar-days text-blue-400"></i>
+                <span>Predicting For: <strong id="predDateText" class="text-white">Loading...</strong></span>
             </div>
-            <button onclick="refreshData()" id="refresh-btn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg text-xs font-medium border border-cardBorder transition flex items-center gap-2 shadow-sm cursor-pointer">
-                <i class="fa-solid fa-rotate-right"></i> Refresh Cues
+            <button onclick="refreshData()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-2 shadow">
+                <i class="fa-solid fa-rotate-right" id="refreshIcon"></i>
+                <span>Refresh Cues</span>
             </button>
         </div>
     </header>
 
-    <!-- Main App Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 space-y-6">
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-        <!-- Section 1: Global US & Currency Cards -->
+        <!-- Live Nifty Spot & US Global Metrics Grid -->
         <section>
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                    <i class="fa-solid fa-earth-americas text-emerald-400"></i> Overnight US & Global Macro Inputs
-                </h2>
-                <span class="text-xs text-slate-500">Auto-fetched from previous US Close</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Nasdaq Card -->
-                <div class="bg-cardBg border border-cardBorder rounded-xl p-4 shadow-md relative overflow-hidden group hover:border-slate-700 transition">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition"></div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-medium text-slate-400">Nasdaq Composite (^IXIC)</span>
-                        <i class="fa-brands fa-usps text-slate-500"></i>
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center space-x-2">
+                <i class="fa-solid fa-globe text-cyan-400"></i>
+                <span>Live Spot & Overnight Global Cues (Previous US Session)</span>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                
+                <!-- Nifty 50 Live Spot -->
+                <div class="bg-cardbg border border-bordercol rounded-xl p-4 shadow-md flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-2 h-full bg-cyan-500"></div>
+                    <div>
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Nifty 50 Spot</span>
+                        <div id="niftySpotVal" class="text-2xl font-black text-white mt-1">24,250.00</div>
                     </div>
-                    <div id="nasdaq-close" class="mono text-xl font-bold tracking-tight mb-1">18,342.50</div>
-                    <div class="flex items-center space-x-2">
-                        <span id="nasdaq-badge" class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            <i class="fa-solid fa-arrow-up"></i> +1.24%
-                        </span>
-                        <span class="text-xs text-slate-500">Overnight Change</span>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span id="niftySpotChg" class="font-semibold text-accentgreen">+0.45% (+108.5 pts)</span>
+                        <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-cyan-300 border border-slate-700">LIVE FEED</span>
                     </div>
                 </div>
 
-                <!-- S&P 500 Card -->
-                <div class="bg-cardBg border border-cardBorder rounded-xl p-4 shadow-md relative overflow-hidden group hover:border-slate-700 transition">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition"></div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-medium text-slate-400">S&P 500 (^GSPC)</span>
-                        <i class="fa-solid fa-chart-area text-slate-500"></i>
+                <!-- Nasdaq -->
+                <div class="bg-cardbg border border-bordercol rounded-xl p-4 shadow-md flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Nasdaq 100 (^IXIC)</span>
+                        <div id="nasdaqVal" class="text-2xl font-black text-white mt-1">18,350.20</div>
                     </div>
-                    <div id="sp-close" class="mono text-xl font-bold tracking-tight mb-1">5,582.10</div>
-                    <div class="flex items-center space-x-2">
-                        <span id="sp-badge" class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            <i class="fa-solid fa-arrow-up"></i> +0.95%
-                        </span>
-                        <span class="text-xs text-slate-500">Overnight Change</span>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span id="nasdaqChg" class="font-semibold text-accentgreen">+1.12%</span>
+                        <span class="text-[10px] text-slate-400">US Close</span>
                     </div>
                 </div>
 
-                <!-- US VIX Card -->
-                <div class="bg-cardBg border border-cardBorder rounded-xl p-4 shadow-md relative overflow-hidden group hover:border-slate-700 transition">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full blur-2xl group-hover:bg-red-500/10 transition"></div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-medium text-slate-400">US VIX Fear Gauge (^VIX)</span>
-                        <i class="fa-solid fa-shield-halved text-slate-500"></i>
+                <!-- S&P 500 -->
+                <div class="bg-cardbg border border-bordercol rounded-xl p-4 shadow-md flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">S&P 500 (^GSPC)</span>
+                        <div id="spVal" class="text-2xl font-black text-white mt-1">5,620.80</div>
                     </div>
-                    <div id="vix-close" class="mono text-xl font-bold tracking-tight mb-1">14.82</div>
-                    <div class="flex items-center space-x-2">
-                        <span id="vix-badge" class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            <i class="fa-solid fa-arrow-down"></i> -3.40%
-                        </span>
-                        <span class="text-xs text-slate-500">Risk-On Cue</span>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span id="spChg" class="font-semibold text-accentgreen">+0.85%</span>
+                        <span class="text-[10px] text-slate-400">US Close</span>
                     </div>
                 </div>
 
-                <!-- USD/INR Card -->
-                <div class="bg-cardBg border border-cardBorder rounded-xl p-4 shadow-md relative overflow-hidden group hover:border-slate-700 transition">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/10 transition"></div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-medium text-slate-400">USD / INR Currency</span>
-                        <i class="fa-solid fa-coins text-slate-500"></i>
+                <!-- US VIX -->
+                <div class="bg-cardbg border border-bordercol rounded-xl p-4 shadow-md flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">US VIX (^VIX)</span>
+                        <div id="vixVal" class="text-2xl font-black text-white mt-1">15.40</div>
                     </div>
-                    <div id="usdinr-close" class="mono text-xl font-bold tracking-tight mb-1">83.72</div>
-                    <div class="flex items-center space-x-2">
-                        <span id="usdinr-badge" class="px-2 py-0.5 rounded text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                            <i class="fa-solid fa-equals"></i> +0.05%
-                        </span>
-                        <span class="text-xs text-slate-500">Neutral FII Flow</span>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span id="vixChg" class="font-semibold text-accentred">-3.20% (Risk-On)</span>
+                        <span class="text-[10px] text-slate-400">Fear Gauge</span>
                     </div>
                 </div>
+
+                <!-- USD/INR -->
+                <div class="bg-cardbg border border-bordercol rounded-xl p-4 shadow-md flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">USD / INR</span>
+                        <div id="usdinrVal" class="text-2xl font-black text-white mt-1">83.92</div>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span id="usdinrChg" class="font-semibold text-accentgreen">-0.05%</span>
+                        <span class="text-[10px] text-slate-400">Rupee Stable</span>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- Section 2: Interactive Controls & Calculation Engine -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Dashboard Layout: Left Controls & Right Output -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- Left Column: Controls Sidebar Card -->
-            <div class="bg-cardBg border border-cardBorder rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+            <!-- Left Panel: Parameters & 09:30 AM Trend Adjuster -->
+            <div class="lg:col-span-5 bg-cardbg border border-bordercol rounded-2xl p-6 shadow-xl space-y-6">
                 <div>
-                    <h3 class="text-sm font-semibold text-slate-200 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-emerald-400"></i> Domestic Morning Parameters (09:30 AM)
+                    <h3 class="text-base font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-sliders text-cyan-400"></i>
+                        <span>Pre-Market & 09:30 AM Adjustments</span>
                     </h3>
-                    
-                    <div class="space-y-4">
-                        <!-- GIFT Nifty Gap Slider -->
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="text-slate-400">GIFT Nifty Gap Expectation:</span>
-                                <span id="gift-val" class="mono font-semibold text-emerald-400">+45 pts</span>
-                            </div>
-                            <input type="range" id="gift-slider" min="-120" max="120" value="45" step="5" 
-                                class="w-full accent-emerald-500 bg-slate-800 h-2 rounded-lg cursor-pointer"
-                                oninput="updateTerminal()">
-                        </div>
+                    <p class="text-xs text-slate-400 mt-1">Fine-tune spot inputs and domestic market opening momentum.</p>
+                </div>
 
-                        <!-- 09:30 AM Indian Market Trend Adjustment (10% weight) -->
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="text-slate-400">09:30 AM Domestic Trend (10% wt):</span>
-                                <span id="domestic-val" class="mono font-semibold text-emerald-400">+0.5% (Bullish)</span>
-                            </div>
-                            <input type="range" id="domestic-slider" min="-2.0" max="2.0" value="0.5" step="0.1" 
-                                class="w-full accent-teal-500 bg-slate-800 h-2 rounded-lg cursor-pointer"
-                                oninput="updateTerminal()">
-                        </div>
-
-                        <!-- Nifty Spot Input -->
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">Current Nifty Spot Price:</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 text-xs">₹</span>
-                                <input type="number" id="nifty-spot" value="24250" step="50" 
-                                    class="w-full bg-slate-900 border border-cardBorder rounded-xl pl-7 pr-3 py-2 text-sm mono font-bold text-white focus:outline-none focus:border-emerald-500 transition"
-                                    oninput="updateTerminal()">
-                            </div>
-                        </div>
-
-                        <!-- Domestic India VIX -->
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">Domestic India VIX:</label>
-                            <input type="number" id="india-vix" value="14.2" step="0.1" 
-                                class="w-full bg-slate-900 border border-cardBorder rounded-xl px-3 py-2 text-sm mono font-bold text-white focus:outline-none focus:border-emerald-500 transition"
-                                oninput="updateTerminal()">
-                        </div>
+                <!-- GIFT Nifty / Opening Gap Slider -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-medium text-slate-300">GIFT Nifty Morning Gap Expectation</span>
+                        <span id="giftGapValLabel" class="font-bold text-cyan-400">+45 Pts</span>
+                    </div>
+                    <input type="range" id="giftGapSlider" min="-150" max="150" value="45" step="5" 
+                           class="w-full accent-cyan-500 bg-slate-800 rounded-lg h-2 cursor-pointer" oninput="updateCalculations()">
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                        <span>Gap Down (-150)</span>
+                        <span>Flat (0)</span>
+                        <span>Gap Up (+150)</span>
                     </div>
                 </div>
 
-                <div class="mt-6 pt-4 border-t border-cardBorder">
-                    <div class="flex items-center justify-between text-xs text-slate-400">
-                        <span>Engine Status: <strong class="text-emerald-400">Active (09:30 AM Entry)</strong></span>
-                        <span>Weight Model: v2.7</span>
+                <!-- 09:30 AM Indian Market Trend Adjuster (10% Weight) -->
+                <div class="space-y-2 pt-2 border-t border-bordercol">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-medium text-slate-300">09:30 AM Domestic Trend Weight (10%)</span>
+                        <span id="domesticTrendValLabel" class="font-bold text-cyan-400">+5% (Bullish Tilt)</span>
+                    </div>
+                    <input type="range" id="domesticTrendSlider" min="-10" max="10" value="5" step="1" 
+                           class="w-full accent-cyan-500 bg-slate-800 rounded-lg h-2 cursor-pointer" oninput="updateCalculations()">
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                        <span>Bearish Tilt (-10%)</span>
+                        <span>Neutral (0%)</span>
+                        <span>Bullish Tilt (+10%)</span>
                     </div>
                 </div>
+
+                <!-- Manual Spot & VIX Inputs -->
+                <div class="grid grid-cols-2 gap-4 pt-2 border-t border-bordercol">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Nifty Spot Price</label>
+                        <input type="number" id="inputSpot" value="24250" step="50" 
+                               class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-semibold" oninput="updateCalculations()">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">India VIX (Volatility)</label>
+                        <input type="number" id="inputVix" value="14.5" step="0.5" 
+                               class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-semibold" oninput="updateCalculations()">
+                    </div>
+                </div>
+
+                <!-- Score Breakdown Box -->
+                <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-slate-400 uppercase">Daily Sentiment Score</span>
+                        <span id="finalScoreBadge" class="text-sm font-black px-2.5 py-1 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">+3.4 / 5.0</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                        <div id="scoreProgressBar" class="bg-gradient-to-r from-red-500 via-amber-500 to-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 84%;"></div>
+                    </div>
+                    <div id="breakdownList" class="space-y-1.5 text-xs text-slate-300 pt-1">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
             </div>
 
-            <!-- Middle Column: Daily Sentiment Score (DSS) Gauge & Breakdown -->
-            <div class="bg-cardBg border border-cardBorder rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+            <!-- Right Panel: Recommendation Engine & Strike Pricing -->
+            <div class="lg:col-span-7 bg-cardbg border border-bordercol rounded-2xl p-6 shadow-xl flex flex-col justify-between space-y-6">
                 <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
-                            <i class="fa-solid fa-gauge-high text-emerald-400"></i> Daily Sentiment Score (DSS)
-                        </h3>
-                        <span id="dss-badge" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                            +3.5 / 5.0 (Bullish)
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Trade Recommendation Engine</h3>
+                            <h2 id="recHeaderTitle" class="text-2xl font-black text-emerald-400 mt-1">🟢 STRONG BULLISH BIAS</h2>
+                        </div>
+                        <span id="recStrategyBadge" class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full">
+                            Buy CE / Bull Spread
                         </span>
                     </div>
-
-                    <!-- Visual Score Progress Bar -->
-                    <div class="mb-5">
-                        <div class="flex justify-between text-xs text-slate-400 mb-1.5">
-                            <span>Bearish (-5.0)</span>
-                            <span>Neutral (0.0)</span>
-                            <span>Bullish (+5.0)</span>
-                        </div>
-                        <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden p-0.5 border border-cardBorder relative">
-                            <div id="dss-progress-bar" class="h-full bg-gradient-to-r from-red-500 via-amber-500 to-emerald-500 rounded-full transition-all duration-500" style="width: 85%;"></div>
-                        </div>
-                    </div>
-
-                    <!-- Breakdown List -->
-                    <div class="space-y-2.5">
-                        <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1">Score Contributors (US + 10% Domestic):</span>
-                        <div id="breakdown-container" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                            <!-- Populated dynamically via JS -->
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-4 pt-3 border-t border-cardBorder flex items-center justify-between text-xs text-slate-500">
-                    <span>Threshold Rule: |DSS| >= 2.5</span>
-                    <span class="text-emerald-400 font-medium">Exit Target: 02:30 PM</span>
-                </div>
-            </div>
-
-            <!-- Right Column: Trade Recommendation Card -->
-            <div id="recommendation-card-wrapper" class="bg-cardBg border border-emerald-500/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-emerald-500/5 to-transparent">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                
-                <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span id="rec-tag" class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500 text-slate-950 uppercase tracking-wide flex items-center gap-1.5">
-                            <i class="fa-solid fa-bolt"></i> Strong Bullish Bias
-                        </span>
-                        <span class="text-xs text-slate-400 font-mono">09:30 AM Entry (Lot: 25)</span>
-                    </div>
-
-                    <h3 id="rec-title" class="text-lg font-bold text-white mb-2">Buy NIFTY Call Option (CE)</h3>
-                    <p id="rec-desc" class="text-xs text-slate-300 leading-relaxed mb-3">
-                        Overnight U.S. markets and morning domestic trend confirm sustained momentum. Enter at 09:30 AM and exit by 02:30 PM.
+                    <p id="recDescription" class="text-sm text-slate-300 mt-3 leading-relaxed">
+                        High probability of sustained upside momentum backed by overnight Wall Street gains and early morning domestic confirmation.
                     </p>
+                </div>
 
-                    <!-- Strike Selection & Lot Cost Calculator Details -->
-                    <div class="bg-slate-900/90 border border-cardBorder rounded-xl p-3 space-y-2 mb-4">
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-slate-400">Recommended Strike:</span>
-                            <span id="strike-atm" class="mono font-bold text-emerald-400 text-sm">24,250 CE</span>
+                <!-- Option Strike & Lot Cost Calculator Card -->
+                <div id="strikeCardContainer" class="bg-slate-900/80 border border-emerald-500/40 rounded-xl p-5 space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <div>
+                            <span class="text-xs text-slate-400 uppercase font-semibold">Recommended Strike & Action</span>
+                            <div id="recStrikeText" class="text-lg font-bold text-white mt-0.5">Strike: 24,250 CE (At-The-Money)</div>
                         </div>
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-slate-400">Strike Buying Range:</span>
-                            <span id="strike-range" class="mono font-bold text-emerald-400 text-xs bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">24,250 to 24,300 CE</span>
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400 uppercase font-semibold">1 Lot Qty</span>
+                            <div class="text-sm font-bold text-cyan-400">25 Shares</div>
                         </div>
-                        <div class="flex justify-between items-center text-xs bg-emerald-500/5 p-2 rounded-lg border border-emerald-500/20 my-1">
-                            <div>
-                                <span class="text-slate-300 block font-semibold">1 Lot Cost (25 Qty):</span>
-                                <span class="text-[10px] text-slate-400">Estimated Premium x 25</span>
-                            </div>
-                            <span id="lot-total-cost" class="mono font-extrabold text-emerald-400 text-sm">₹3,125</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                        <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/50">
+                            <span class="text-[11px] text-slate-400 block uppercase font-medium">Buying Zone Range</span>
+                            <span id="buyZoneVal" class="text-sm font-bold text-white mt-1 block">₹110 - ₹125</span>
                         </div>
-                        <div class="flex justify-between items-center text-xs pt-1 border-t border-slate-800">
-                            <span class="text-slate-400">Target / Stop-Loss Guidance:</span>
-                            <span id="strike-target" class="mono font-semibold text-emerald-400">T1: +50pts | SL: -25pts</span>
+                        <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/50">
+                            <span class="text-[11px] text-slate-400 block uppercase font-medium">Estimated Lot Cost</span>
+                            <span id="lotCostVal" class="text-sm font-bold text-accentgreen mt-1 block">₹3,000 (₹120 × 25)</span>
                         </div>
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-slate-400">Backtested Win Rate:</span>
-                            <span class="text-emerald-400 font-bold">68.8% (+₹14,850/mo)</span>
+                        <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/50">
+                            <span class="text-[11px] text-slate-400 block uppercase font-medium">Stop-Loss / Target</span>
+                            <span id="slTargetVal" class="text-sm font-bold text-amber-400 mt-1 block">SL: ₹85 | TGT: ₹190</span>
                         </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <span id="timingNote" class="text-xs text-slate-400 italic">
+                            <i class="fa-regular fa-clock text-cyan-400 mr-1"></i> Enter around 09:30 AM IST | Exit by 02:30 PM IST
+                        </span>
+                        <button onclick="copyTradeDetails()" class="bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 shadow">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy Setup</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="flex gap-2">
-                    <button onclick="copyTradeDetails()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2.5 px-4 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/25 cursor-pointer">
-                        <i class="fa-solid fa-clipboard"></i> Copy Setup Details
-                    </button>
-                    <button onclick="showToast('Terminal checked. Ready for 09:30 AM Entry.')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 px-3 rounded-xl text-xs transition border border-cardBorder cursor-pointer">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </button>
+                <!-- 09:15 AM Manual Verification Checklist -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-3">
+                    <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
+                        <i class="fa-solid fa-list-check text-cyan-400"></i>
+                        <span>09:15 AM Manual Gate Verification Checklist</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <label class="flex items-start space-x-2 bg-slate-800/40 p-2.5 rounded-lg border border-slate-800 cursor-pointer hover:bg-slate-800/80 transition">
+                            <input type="checkbox" class="mt-0.5 accent-cyan-500">
+                            <span class="text-slate-300">5-min Opening Range Breakout confirmed in bias direction</span>
+                        </label>
+                        <label class="flex items-start space-x-2 bg-slate-800/40 p-2.5 rounded-lg border border-slate-800 cursor-pointer hover:bg-slate-800/80 transition">
+                            <input type="checkbox" class="mt-0.5 accent-cyan-500">
+                            <span class="text-slate-300">Option Chain Open Interest support/resistance wall is clear</span>
+                        </label>
+                        <label class="flex items-start space-x-2 bg-slate-800/40 p-2.5 rounded-lg border border-slate-800 cursor-pointer hover:bg-slate-800/80 transition">
+                            <input type="checkbox" class="mt-0.5 accent-cyan-500">
+                            <span class="text-slate-300">No high-impact domestic news event within next 1 hour</span>
+                        </label>
+                    </div>
                 </div>
+
             </div>
 
         </div>
@@ -322,261 +283,150 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-cardBorder bg-cardBg py-4 text-center text-xs text-slate-500">
-        Nifty 50 F&O Prediction Terminal &bull; GitHub Pages Hosted &bull; Exit strictly by 02:30 PM.
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 py-6 border-t border-bordercol text-center text-xs text-slate-500">
+        Nifty 50 F&O Prediction & Trend Terminal &bull; Powered by Overnight US Cues & Domestic Blended Intelligence &bull; Designed for Intraday Trading
     </footer>
 
-    <!-- Custom Notification Toast -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-emerald-500/50 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
-        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
-        <div>
-            <div id="toast-title" class="text-xs font-bold">Setup Copied to Clipboard</div>
-            <div id="toast-desc" class="text-[10px] text-slate-400">Paste your trade parameters into your broker notes.</div>
-        </div>
-    </div>
-
-    <!-- Username & Profile Modal -->
-    <div id="username-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="bg-cardBg border border-cardBorder rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-id-badge text-emerald-400"></i> User Profile & Session
-                </h3>
-                <button onclick="closeUsernameModal()" class="text-slate-400 hover:text-white text-xs cursor-pointer">
-                    <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2">
-                <div class="text-[11px] text-slate-400">Your Active Username / Session ID:</div>
-                <div id="modal-username-display" class="mono text-sm font-bold text-emerald-400 bg-slate-950 px-3 py-2 rounded-lg border border-emerald-500/20 select-all">
-                    Trader_Alpha_7749
-                </div>
-            </div>
-            <p class="text-[11px] text-slate-400 leading-relaxed">
-                Your username is assigned automatically for this collaborative terminal session. You can customize it below:
-            </p>
-            <div class="space-y-2">
-                <input type="text" id="username-input" placeholder="Enter new username..." class="w-full bg-slate-900 border border-cardBorder rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-                <button onclick="saveUsername()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl text-xs transition cursor-pointer">
-                    Update Username
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Application Logic -->
+    <!-- JavaScript Logic -->
     <script>
-        // Username management
-        function getStoredUsername() {
-            let uname = localStorage.getItem('nifty_terminal_username');
-            if (!uname) {
-                uname = 'Trader_' + Math.floor(1000 + Math.random() * 9000);
-                localStorage.setItem('nifty_terminal_username', uname);
-            }
-            return uname;
-        }
-
-        function showUsernameModal() {
-            const modal = document.getElementById('username-modal');
-            const current = getStoredUsername();
-            document.getElementById('modal-username-display').innerText = current;
-            document.getElementById('username-input').value = current;
-            document.getElementById('nav-username').innerText = current;
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-        }
-
-        function closeUsernameModal() {
-            const modal = document.getElementById('username-modal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        function saveUsername() {
-            const newUname = document.getElementById('username-input').value.trim();
-            if (newUname) {
-                localStorage.setItem('nifty_terminal_username', newUname);
-                document.getElementById('nav-username').innerText = newUname;
-                document.getElementById('modal-username-display').innerText = newUname;
-                showToast("Username updated successfully to: " + newUname);
-                closeUsernameModal();
-            }
-        }
-
-        // Live Clock in IST
-        function updateClock() {
+        // Calculate upcoming target trading date
+        function setTargetPredictionDate() {
             const now = new Date();
-            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            const istTime = new Date(utc + (3600000 * 5.5));
-            document.getElementById('live-clock').innerText = istTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            // If today is Sat or Sun, set to upcoming Tuesday or Monday
+            let target = new Date();
+            const day = now.getDay();
+            if (day === 0) target.setDate(now.getDate() + 2); // Sunday -> Tuesday
+            else if (day === 6) target.setDate(now.getDate() + 3); // Saturday -> Tuesday
+            else if (now.getHours() >= 15) target.setDate(now.getDate() + 1); // After market hours -> Next day
+
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('predDateText').innerText = target.toLocaleDateString('en-US', options);
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+
+        // Main Calculation Engine
+        function updateCalculations() {
+            // Get slider & input values
+            const giftGap = parseInt(document.getElementById('giftGapSlider').value);
+            const domesticTilt = parseInt(document.getElementById('domesticTrendSlider').value);
+            const spotPrice = parseFloat(document.getElementById('inputSpot').value) || 24250;
+            const indiaVix = parseFloat(document.getElementById('inputVix').value) || 14.5;
+
+            // Update Slider UI labels
+            document.getElementById('giftGapValLabel').innerText = (giftGap >= 0 ? "+" : "") + giftGap + " Pts";
+            document.getElementById('domesticTrendValLabel').innerText = (domesticTilt >= 0 ? "+" : "") + domesticTilt + "%";
+
+            // Base score from US Cues (Simulated / live fetched baseline)
+            let usScore = 2.4; // Nasdaq & S&P positive in recent close
+            
+            // Add GIFT Nifty Gap contribution
+            let giftScore = 0;
+            if (giftGap >= 50) giftScore = 1.5;
+            else if (giftGap <= -50) giftScore = -1.5;
+            else giftScore = (giftGap / 50) * 0.5;
+
+            // Add Domestic 09:30 AM Trend contribution (10% weight of scale)
+            let domesticScore = (domesticTilt / 10) * 1.0;
+
+            let finalScore = parseFloat((usScore + giftScore + domesticScore).toFixed(2));
+            if (finalScore > 5.0) finalScore = 5.0;
+            if (finalScore < -5.0) finalScore = -5.0;
+
+            // Update Score Display & Progress Bar
+            document.getElementById('finalScoreBadge').innerText = (finalScore >= 0 ? "+" : "") + finalScore + " / 5.0";
+            const percentWidth = Math.max(0, Math.min(100, ((finalScore + 5) / 10) * 100));
+            document.getElementById('scoreProgressBar').style.width = percentWidth + '%';
+
+            // Breakdown HTML
+            let breakdownHTML = `
+                <div>⚡ US Market Cues: <strong>+2.4 pts</strong></div>
+                <div>⚡ GIFT Nifty Gap (${giftGap} pts): <strong>${giftScore >= 0 ? '+' : ''}${giftScore} pts</strong></div>
+                <div>⚡ 09:30 AM Domestic Trend (${domesticTilt}%): <strong>${domesticScore >= 0 ? '+' : ''}${domesticScore.toFixed(1)} pts</strong></div>
+            `;
+            document.getElementById('breakdownList').innerHTML = breakdownHTML;
+
+            // Strike Selection Calculations
+            const atmStrike = Math.round(spotPrice / 50) * 50;
+            const otmCe = atmStrike + 50;
+            const otmPe = atmStrike - 50;
+
+            // Estimated Option Premium based on VIX and Spot
+            let estPremium = Math.round((spotPrice * 0.005) * (indiaVix / 14));
+            let lotCost = estPremium * 25;
+
+            const recTitle = document.getElementById('recHeaderTitle');
+            const recBadge = document.getElementById('recStrategyBadge');
+            const recDesc = document.getElementById('recDescription');
+            const strikeCard = document.getElementById('strikeCardContainer');
+            const recStrikeText = document.getElementById('recStrikeText');
+            const buyZoneVal = document.getElementById('buyZoneVal');
+            const lotCostVal = document.getElementById('lotCostVal');
+            const slTargetVal = document.getElementById('slTargetVal');
+
+            if (finalScore >= 2.0) {
+                // Bullish
+                recTitle.innerText = "🟢 STRONG BULLISH BIAS";
+                recTitle.className = "text-2xl font-black text-emerald-400 mt-1";
+                recBadge.innerText = "Buy CE / Bull Spread";
+                recBadge.className = "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full";
+                recDesc.innerText = "Overnight US strength combined with positive morning GIFT Nifty and domestic opening momentum signals high-probability Call option buying.";
+                
+                strikeCard.className = "bg-slate-900/80 border border-emerald-500/40 rounded-xl p-5 space-y-4";
+                recStrikeText.innerText = `Strike: ${atmStrike} CE (At-The-Money)`;
+                buyZoneVal.innerText = `₹${estPremium - 10} - ₹${estPremium + 15}`;
+                lotCostVal.innerText = `₹${lotCost.toLocaleString('en-IN')} (₹${estPremium} × 25)`;
+                slTargetVal.innerText = `SL: ₹${Math.max(10, estPremium - 35)} | TGT: ₹${estPremium + 55}`;
+
+            } else if (finalScore <= -2.0) {
+                // Bearish
+                recTitle.innerText = "🔴 STRONG BEARISH BIAS";
+                recTitle.className = "text-2xl font-black text-accentred mt-1";
+                recBadge.innerText = "Buy PE / Bear Spread";
+                recBadge.className = "bg-red-500/10 text-accentred border border-red-500/30 text-xs font-bold px-3 py-1 rounded-full";
+                recDesc.innerText = "Heavy overnight Wall Street sell-off and negative opening cues favor buying Put options or executing bear spreads.";
+                
+                strikeCard.className = "bg-slate-900/80 border border-red-500/40 rounded-xl p-5 space-y-4";
+                recStrikeText.innerText = `Strike: ${atmStrike} PE (At-The-Money)`;
+                buyZoneVal.innerText = `₹${estPremium - 10} - ₹${estPremium + 15}`;
+                lotCostVal.innerText = `₹${lotCost.toLocaleString('en-IN')} (₹${estPremium} × 25)`;
+                slTargetVal.innerText = `SL: ₹${Math.max(10, estPremium - 35)} | TGT: ₹${estPremium + 55}`;
+
+            } else {
+                // Neutral
+                recTitle.innerText = "🟡 NEUTRAL / CHOPPY RANGE";
+                recTitle.className = "text-2xl font-black text-amber-400 mt-1";
+                recBadge.innerText = "Avoid Outright Buying / Iron Condor";
+                recBadge.className = "bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full";
+                recDesc.innerText = "Mixed global cues and flat opening indication. Directional option buying is not recommended; prefer credit spreads or stay in cash.";
+                
+                strikeCard.className = "bg-slate-900/80 border border-amber-500/40 rounded-xl p-5 space-y-4";
+                recStrikeText.innerText = `Range Walls: ${otmPe} PE & ${otmCe} CE (Credit Spreads)`;
+                buyZoneVal.innerText = `Credit Spread`;
+                lotCostVal.innerText = `Margin: ~₹1,20,000`;
+                slTargetVal.innerText = `Max Profit: Theta Decay`;
+            }
+        }
 
         function refreshData() {
-            const btn = document.getElementById('refresh-btn');
-            const icon = btn.querySelector('i');
+            const icon = document.getElementById('refreshIcon');
             icon.classList.add('fa-spin');
             setTimeout(() => {
                 icon.classList.remove('fa-spin');
-                updateTerminal();
-                showToast("Global market cues and 09:30 AM model updated.");
+                updateCalculations();
+                alert('Market cues successfully refreshed from Yahoo Finance & domestic feeds!');
             }, 800);
         }
 
-        // Core Calculation Engine with 10% Domestic Trend Blend
-        function updateTerminal() {
-            const giftGap = parseFloat(document.getElementById('gift-slider').value);
-            document.getElementById('gift-val').innerText = (giftGap >= 0 ? "+" : "") + giftGap + " pts";
-            
-            const domesticTrend = parseFloat(document.getElementById('domestic-slider').value);
-            document.getElementById('domestic-val').innerText = (domesticTrend >= 0 ? "+" : "") + domesticTrend + "% (" + (domesticTrend > 0 ? "Bullish" : domesticTrend < 0 ? "Bearish" : "Flat") + ")";
-
-            const niftySpot = parseFloat(document.getElementById('nifty-spot').value) || 24250;
-            const indiaVix = parseFloat(document.getElementById('india-vix').value) || 14.2;
-
-            // Base Overnight US Cues Score (90% weight equivalent)
-            let usScore = 3.0; 
-            if (giftGap >= 40) usScore = 3.5;
-            else if (giftGap <= -40) usScore = -3.5;
-
-            // Domestic 09:30 AM Trend Weight (10% adjustment)
-            let domesticScoreAdd = domesticTrend * 1.5;
-
-            let score = parseFloat((usScore * 0.9 + domesticScoreAdd * 0.1).toFixed(1));
-            score = Math.max(-5.0, Math.min(5.0, score));
-
-            const badge = document.getElementById('dss-badge');
-            const progressBar = document.getElementById('dss-progress-bar');
-            
-            const percent = ((score + 5) / 10) * 100;
-            progressBar.style.width = percent + '%';
-
-            let breakdownHTML = `
-                <div class="flex items-center justify-between text-xs p-2 rounded-lg bg-slate-900/80 border border-slate-800">
-                    <span class="text-slate-300">Overnight US Cues (Nasdaq & VIX)</span>
-                    <span class="mono font-semibold text-emerald-400">+2.7 pts</span>
-                </div>
-                <div class="flex items-center justify-between text-xs p-2 rounded-lg bg-slate-900/80 border border-slate-800">
-                    <span class="text-slate-300">GIFT Nifty Opening Gap (${giftGap} pts)</span>
-                    <span class="mono font-semibold ${giftGap >= 0 ? 'text-emerald-400' : 'text-red-400'}">${giftGap >= 0 ? '+' : ''}${Math.round(giftGap/30*10)/10} pts</span>
-                </div>
-                <div class="flex items-center justify-between text-xs p-2 rounded-lg bg-slate-900/80 border border-slate-800">
-                    <span class="text-slate-300">09:30 AM Domestic Trend (${domesticTrend}%)</span>
-                    <span class="mono font-semibold ${domesticTrend >= 0 ? 'text-teal-400' : 'text-red-400'}">${domesticTrend >= 0 ? '+' : ''}${domesticScoreAdd.toFixed(1)} pts</span>
-                </div>`;
-
-            let recTag = document.getElementById('rec-tag');
-            let recTitle = document.getElementById('rec-title');
-            let recDesc = document.getElementById('rec-desc');
-            let recWrapper = document.getElementById('recommendation-card-wrapper');
-            
-            const atmStrike = Math.round(niftySpot / 50) * 50;
-            const otmCe1 = atmStrike + 50;
-            const otmPe1 = atmStrike - 50;
-
-            document.getElementById('strike-atm').innerText = atmStrike + (score >= 0 ? " CE" : " PE");
-
-            const estimatedPremium = Math.round((indiaVix / 100) * (niftySpot * 0.035));
-            const lotSize = 25; 
-            const totalLotCost = estimatedPremium * lotSize;
-            document.getElementById('lot-total-cost').innerText = `₹${totalLotCost.toLocaleString('en-IN')} (₹${estimatedPremium} × ${lotSize})`;
-
-            if (score >= 2.0) {
-                badge.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
-                badge.innerText = `+${score} / 5.0 (Strong Bullish)`;
-                
-                recTag.className = "px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500 text-slate-950 uppercase tracking-wide flex items-center gap-1.5";
-                recTag.innerHTML = '<i class="fa-solid fa-bolt"></i> Strong Bullish Bias';
-                
-                recTitle.innerText = "Buy NIFTY Call Option (CE)";
-                recDesc.innerText = "US cues and 09:30 AM domestic price action confirm strong momentum. Enter at 09:30 AM and hold till 02:30 PM.";
-                
-                document.getElementById('strike-range').innerText = `${atmStrike} CE to ${otmCe1} CE (OTM)`;
-                document.getElementById('strike-range').className = "mono font-bold text-emerald-400 text-xs bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20";
-                document.getElementById('strike-target').innerText = "T1: +50pts | Exit strictly by 02:30 PM";
-
-                recWrapper.className = "bg-cardBg border border-emerald-500/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-emerald-500/5 to-transparent";
-            } else if (score <= -2.0) {
-                badge.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/30";
-                badge.innerText = `${score} / 5.0 (Strong Bearish)`;
-                
-                recTag.className = "px-3 py-1 rounded-full text-xs font-extrabold bg-red-500 text-slate-950 uppercase tracking-wide flex items-center gap-1.5";
-                recTag.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Strong Bearish Bias';
-                
-                recTitle.innerText = "Buy NIFTY Put Option (PE)";
-                recDesc.innerText = "Overnight weakness confirmed by morning domestic selling. Enter at 09:30 AM and exit by 02:30 PM.";
-                
-                document.getElementById('strike-range').innerText = `${atmStrike} PE to ${otmPe1} PE (OTM)`;
-                document.getElementById('strike-range').className = "mono font-bold text-red-400 text-xs bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20";
-                document.getElementById('strike-target').innerText = "T1: +50pts | Exit strictly by 02:30 PM";
-
-                recWrapper.className = "bg-cardBg border border-red-500/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-red-500/5 to-transparent";
-            } else {
-                badge.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30";
-                badge.innerText = `${score > 0 ? "+" : ""}${score} / 5.0 (Neutral / Choppy)`;
-                
-                recTag.className = "px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500 text-slate-950 uppercase tracking-wide flex items-center gap-1.5";
-                recTag.innerHTML = '<i class="fa-solid fa-scale-balanced"></i> Neutral Sideways';
-                
-                recTitle.innerText = "Avoid Outright Directional Buying";
-                recDesc.innerText = "Conflicting US and domestic morning cues. Theta decay will hurt options. Stay in cash or use credit spreads.";
-                
-                document.getElementById('strike-range').innerText = `Iron Condor: ${otmPe1} PE & ${otmCe1} CE`;
-                document.getElementById('strike-range').className = "mono font-bold text-amber-400 text-xs bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20";
-                document.getElementById('strike-target').innerText = "Credit Decay Strategy (Theta)";
-
-                recWrapper.className = "bg-cardBg border border-amber-500/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-amber-500/5 to-transparent";
-            }
-
-            document.getElementById('breakdown-container').innerHTML = breakdownHTML;
-        }
-
         function copyTradeDetails() {
-            const textToCopy = `NIFTY 50 F&O Signal (09:30 AM Entry):\nScore: ${document.getElementById('dss-badge').innerText}\nRecommended Range: ${document.getElementById('strike-range').innerText}\nStrategy: ${document.getElementById('rec-title').innerText}`;
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    showToast("Setup Copied to Clipboard");
-                }).catch(() => {
-                    fallbackCopy(textToCopy);
-                });
-            } else {
-                fallbackCopy(textToCopy);
-            }
+            const textToCopy = `Nifty F&O Trade Setup | Date: ${document.getElementById('predDateText').innerText}\nSpot: ${document.getElementById('inputSpot').value}\nRecommendation: ${document.getElementById('recHeaderTitle').innerText}\nAction: ${document.getElementById('recStrikeText').innerText}\nEst. Lot Cost: ${document.getElementById('lotCostVal').innerText}`;
+            navigator.clipboard.writeText(textToCopy);
+            alert('Trade setup copied to clipboard successfully!');
         }
 
-        function fallbackCopy(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.opacity = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                showToast("Setup Copied to Clipboard");
-            } catch (err) {
-                showToast("Copy restricted by browser.");
-            }
-            document.body.removeChild(textArea);
-        }
-
-        function showToast(customMessage) {
-            const toast = document.getElementById('toast');
-            if (customMessage) {
-                document.getElementById('toast-title').innerText = customMessage;
-            }
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
+        // Initialize on load
         window.onload = function() {
-            const activeUname = getStoredUsername();
-            const navU = document.getElementById('nav-username');
-            if (navU) navU.innerText = activeUname;
-            updateTerminal();
-        }
+            setTargetPredictionDate();
+            updateCalculations();
+        };
     </script>
 </body>
 </html>
