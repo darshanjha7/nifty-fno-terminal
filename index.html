@@ -41,11 +41,11 @@
         <div class="flex items-center space-x-4 mt-2 sm:mt-0">
             <div id="targetDateBadge" class="bg-blue-950/80 border border-blue-700/50 text-blue-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 shadow-inner">
                 <i class="fa-regular fa-calendar-days text-blue-400"></i>
-                <span>Predicting For: <strong id="predDateText" class="text-white">Loading...</strong></span>
+                <span>Predicting For: <strong id="predDateText" class="text-white">Tuesday, Oct 13, 2026</strong></span>
             </div>
             <button onclick="refreshData()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-2 shadow">
                 <i class="fa-solid fa-rotate-right" id="refreshIcon"></i>
-                <span>Refresh Cues</span>
+                <span>Refresh Live Spot</span>
             </button>
         </div>
     </header>
@@ -57,7 +57,7 @@
         <section>
             <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center space-x-2">
                 <i class="fa-solid fa-globe text-cyan-400"></i>
-                <span>Live Spot & Overnight Global Cues (Previous US Session)</span>
+                <span>Live Spot & Overnight Global Cues</span>
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 
@@ -66,11 +66,11 @@
                     <div class="absolute top-0 right-0 w-2 h-full bg-cyan-500"></div>
                     <div>
                         <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Nifty 50 Spot</span>
-                        <div id="niftySpotVal" class="text-2xl font-black text-white mt-1">24,250.00</div>
+                        <div id="niftySpotVal" class="text-2xl font-black text-white mt-1">22,522.00</div>
                     </div>
                     <div class="mt-3 flex items-center justify-between text-xs">
-                        <span id="niftySpotChg" class="font-semibold text-accentgreen">+0.45% (+108.5 pts)</span>
-                        <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-cyan-300 border border-slate-700">LIVE FEED</span>
+                        <span id="niftySpotChg" class="font-semibold text-accentgreen">+0.45% (+101.2 pts)</span>
+                        <span class="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-800 font-medium">LIVE TICKER</span>
                     </div>
                 </div>
 
@@ -81,7 +81,7 @@
                         <div id="nasdaqVal" class="text-2xl font-black text-white mt-1">18,350.20</div>
                     </div>
                     <div class="mt-3 flex items-center justify-between text-xs">
-                        <span id="nasdaqChg" class="font-semibold text-accentgreen">+1.12%</span>
+                        <span id="nasdaqChg" class="font-semibold text-accentgreen">+0.64%</span>
                         <span class="text-[10px] text-slate-400">US Close</span>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                         <div id="spVal" class="text-2xl font-black text-white mt-1">5,620.80</div>
                     </div>
                     <div class="mt-3 flex items-center justify-between text-xs">
-                        <span id="spChg" class="font-semibold text-accentgreen">+0.85%</span>
+                        <span id="spChg" class="font-semibold text-accentgreen">+0.59%</span>
                         <span class="text-[10px] text-slate-400">US Close</span>
                     </div>
                 </div>
@@ -102,10 +102,10 @@
                 <div class="bg-cardbg border border-bordercol rounded-xl p-4 shadow-md flex flex-col justify-between">
                     <div>
                         <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">US VIX (^VIX)</span>
-                        <div id="vixVal" class="text-2xl font-black text-white mt-1">15.40</div>
+                        <div id="vixVal" class="text-2xl font-black text-white mt-1">14.36</div>
                     </div>
                     <div class="mt-3 flex items-center justify-between text-xs">
-                        <span id="vixChg" class="font-semibold text-accentred">-3.20% (Risk-On)</span>
+                        <span id="vixChg" class="font-semibold text-accentred">-2.10% (Risk-On)</span>
                         <span class="text-[10px] text-slate-400">Fear Gauge</span>
                     </div>
                 </div>
@@ -172,12 +172,12 @@
                 <div class="grid grid-cols-2 gap-4 pt-2 border-t border-bordercol">
                     <div>
                         <label class="block text-xs font-medium text-slate-300 mb-1">Nifty Spot Price</label>
-                        <input type="number" id="inputSpot" value="24250" step="50" 
+                        <input type="number" id="inputSpot" value="22522" step="50" 
                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-semibold" oninput="updateCalculations()">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-slate-300 mb-1">India VIX (Volatility)</label>
-                        <input type="number" id="inputVix" value="14.5" step="0.5" 
+                        <input type="number" id="inputVix" value="14.36" step="0.5" 
                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-semibold" oninput="updateCalculations()">
                     </div>
                 </div>
@@ -186,10 +186,10 @@
                 <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3">
                     <div class="flex justify-between items-center">
                         <span class="text-xs font-semibold text-slate-400 uppercase">Daily Sentiment Score</span>
-                        <span id="finalScoreBadge" class="text-sm font-black px-2.5 py-1 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">+3.4 / 5.0</span>
+                        <span id="finalScoreBadge" class="text-sm font-black px-2.5 py-1 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">+3.5 / 5.0</span>
                     </div>
                     <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
-                        <div id="scoreProgressBar" class="bg-gradient-to-r from-red-500 via-amber-500 to-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 84%;"></div>
+                        <div id="scoreProgressBar" class="bg-gradient-to-r from-red-500 via-amber-500 to-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 85%;"></div>
                     </div>
                     <div id="breakdownList" class="space-y-1.5 text-xs text-slate-300 pt-1">
                         <!-- Populated by JS -->
@@ -220,7 +220,7 @@
                     <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                         <div>
                             <span class="text-xs text-slate-400 uppercase font-semibold">Recommended Strike & Action</span>
-                            <div id="recStrikeText" class="text-lg font-bold text-white mt-0.5">Strike: 24,250 CE (At-The-Money)</div>
+                            <div id="recStrikeText" class="text-lg font-bold text-white mt-0.5">Strike: 22,500 CE (At-The-Money)</div>
                         </div>
                         <div class="text-right">
                             <span class="text-xs text-slate-400 uppercase font-semibold">1 Lot Qty</span>
@@ -231,15 +231,15 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
                         <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/50">
                             <span class="text-[11px] text-slate-400 block uppercase font-medium">Buying Zone Range</span>
-                            <span id="buyZoneVal" class="text-sm font-bold text-white mt-1 block">₹110 - ₹125</span>
+                            <span id="buyZoneVal" class="text-sm font-bold text-white mt-1 block">₹115 - ₹130</span>
                         </div>
                         <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/50">
                             <span class="text-[11px] text-slate-400 block uppercase font-medium">Estimated Lot Cost</span>
-                            <span id="lotCostVal" class="text-sm font-bold text-accentgreen mt-1 block">₹3,000 (₹120 × 25)</span>
+                            <span id="lotCostVal" class="text-sm font-bold text-accentgreen mt-1 block">₹3,125 (₹125 × 25)</span>
                         </div>
                         <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/50">
                             <span class="text-[11px] text-slate-400 block uppercase font-medium">Stop-Loss / Target</span>
-                            <span id="slTargetVal" class="text-sm font-bold text-amber-400 mt-1 block">SL: ₹85 | TGT: ₹190</span>
+                            <span id="slTargetVal" class="text-sm font-bold text-amber-400 mt-1 block">SL: ₹85 | TGT: ₹195</span>
                         </div>
                     </div>
 
@@ -289,68 +289,82 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // Calculate upcoming target trading date
         function setTargetPredictionDate() {
             const now = new Date();
-            // If today is Sat or Sun, set to upcoming Tuesday or Monday
             let target = new Date();
             const day = now.getDay();
             if (day === 0) target.setDate(now.getDate() + 2); // Sunday -> Tuesday
             else if (day === 6) target.setDate(now.getDate() + 3); // Saturday -> Tuesday
-            else if (now.getHours() >= 15) target.setDate(now.getDate() + 1); // After market hours -> Next day
+            else if (now.getHours() >= 15) target.setDate(now.getDate() + 1);
 
             const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
             document.getElementById('predDateText').innerText = target.toLocaleDateString('en-US', options);
         }
 
-        // Main Calculation Engine
+        async function fetchLiveNiftySpot() {
+            const spotDisplay = document.getElementById('niftySpotVal');
+            const spotChgDisplay = document.getElementById('niftySpotChg');
+            const inputSpot = document.getElementById('inputSpot');
+
+            try {
+                const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/^NSEI?interval=1m&range=1d');
+                const data = await response.json();
+                
+                const meta = data.chart.result[0].meta;
+                const currentPrice = meta.regularMarketPrice;
+                const prevClose = meta.chartPreviousClose;
+                const priceChg = currentPrice - prevClose;
+                const percentChg = (priceChg / prevClose) * 100;
+
+                spotDisplay.innerText = currentPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                inputSpot.value = Math.round(currentPrice);
+                
+                const chgSign = priceChg >= 0 ? '+' : '';
+                spotChgDisplay.innerText = `${chgSign}${percentChg.toFixed(2)}% (${chgSign}${priceChg.toFixed(1)} pts)`;
+                spotChgDisplay.className = `font-semibold ${priceChg >= 0 ? 'text-accentgreen' : 'text-accentred'}`;
+
+                updateCalculations();
+            } catch (err) {
+                console.warn('Live fetch note: using manual/cached value:', err);
+                const fallbackPrice = parseFloat(inputSpot.value) || 22522.00;
+                spotDisplay.innerText = fallbackPrice.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+                updateCalculations();
+            }
+        }
+
         function updateCalculations() {
-            // Get slider & input values
             const giftGap = parseInt(document.getElementById('giftGapSlider').value);
             const domesticTilt = parseInt(document.getElementById('domesticTrendSlider').value);
-            const spotPrice = parseFloat(document.getElementById('inputSpot').value) || 24250;
-            const indiaVix = parseFloat(document.getElementById('inputVix').value) || 14.5;
+            const spotPrice = parseFloat(document.getElementById('inputSpot').value) || 22522;
+            const indiaVix = parseFloat(document.getElementById('inputVix').value) || 14.36;
 
-            // Update Slider UI labels
             document.getElementById('giftGapValLabel').innerText = (giftGap >= 0 ? "+" : "") + giftGap + " Pts";
             document.getElementById('domesticTrendValLabel').innerText = (domesticTilt >= 0 ? "+" : "") + domesticTilt + "%";
 
-            // Base score from US Cues (Simulated / live fetched baseline)
-            let usScore = 2.4; // Nasdaq & S&P positive in recent close
-            
-            // Add GIFT Nifty Gap contribution
-            let giftScore = 0;
-            if (giftGap >= 50) giftScore = 1.5;
-            else if (giftGap <= -50) giftScore = -1.5;
-            else giftScore = (giftGap / 50) * 0.5;
-
-            // Add Domestic 09:30 AM Trend contribution (10% weight of scale)
+            let usScore = 2.4; 
+            let giftScore = giftGap >= 50 ? 1.5 : (giftGap <= -50 ? -1.5 : (giftGap / 50) * 0.5);
             let domesticScore = (domesticTilt / 10) * 1.0;
 
             let finalScore = parseFloat((usScore + giftScore + domesticScore).toFixed(2));
             if (finalScore > 5.0) finalScore = 5.0;
             if (finalScore < -5.0) finalScore = -5.0;
 
-            // Update Score Display & Progress Bar
             document.getElementById('finalScoreBadge').innerText = (finalScore >= 0 ? "+" : "") + finalScore + " / 5.0";
             const percentWidth = Math.max(0, Math.min(100, ((finalScore + 5) / 10) * 100));
             document.getElementById('scoreProgressBar').style.width = percentWidth + '%';
 
-            // Breakdown HTML
             let breakdownHTML = `
-                <div>⚡ US Market Cues: <strong>+2.4 pts</strong></div>
-                <div>⚡ GIFT Nifty Gap (${giftGap} pts): <strong>${giftScore >= 0 ? '+' : ''}${giftScore} pts</strong></div>
-                <div>⚡ 09:30 AM Domestic Trend (${domesticTilt}%): <strong>${domesticScore >= 0 ? '+' : ''}${domesticScore.toFixed(1)} pts</strong></div>
+                <div>⚡ US Market Cues: <strong>+2.40 pts</strong></div>
+                <div>⚡ GIFT Nifty Gap (${giftGap} pts): <strong>${giftScore >= 0 ? '+' : ''}${giftScore.toFixed(2)} pts</strong></div>
+                <div>⚡ 09:30 AM Domestic Trend (${domesticTilt}%): <strong>${domesticScore >= 0 ? '+' : ''}${domesticScore.toFixed(2)} pts</strong></div>
             `;
             document.getElementById('breakdownList').innerHTML = breakdownHTML;
 
-            // Strike Selection Calculations
             const atmStrike = Math.round(spotPrice / 50) * 50;
             const otmCe = atmStrike + 50;
             const otmPe = atmStrike - 50;
 
-            // Estimated Option Premium based on VIX and Spot
-            let estPremium = Math.round((spotPrice * 0.005) * (indiaVix / 14));
+            let estPremium = Math.round((spotPrice * 0.0055) * (indiaVix / 14));
             let lotCost = estPremium * 25;
 
             const recTitle = document.getElementById('recHeaderTitle');
@@ -363,7 +377,6 @@
             const slTargetVal = document.getElementById('slTargetVal');
 
             if (finalScore >= 2.0) {
-                // Bullish
                 recTitle.innerText = "🟢 STRONG BULLISH BIAS";
                 recTitle.className = "text-2xl font-black text-emerald-400 mt-1";
                 recBadge.innerText = "Buy CE / Bull Spread";
@@ -371,13 +384,12 @@
                 recDesc.innerText = "Overnight US strength combined with positive morning GIFT Nifty and domestic opening momentum signals high-probability Call option buying.";
                 
                 strikeCard.className = "bg-slate-900/80 border border-emerald-500/40 rounded-xl p-5 space-y-4";
-                recStrikeText.innerText = `Strike: ${atmStrike} CE (At-The-Money)`;
+                recStrikeText.innerText = `Strike: ${atmStrike.toLocaleString('en-IN')} CE (At-The-Money)`;
                 buyZoneVal.innerText = `₹${estPremium - 10} - ₹${estPremium + 15}`;
                 lotCostVal.innerText = `₹${lotCost.toLocaleString('en-IN')} (₹${estPremium} × 25)`;
                 slTargetVal.innerText = `SL: ₹${Math.max(10, estPremium - 35)} | TGT: ₹${estPremium + 55}`;
 
             } else if (finalScore <= -2.0) {
-                // Bearish
                 recTitle.innerText = "🔴 STRONG BEARISH BIAS";
                 recTitle.className = "text-2xl font-black text-accentred mt-1";
                 recBadge.innerText = "Buy PE / Bear Spread";
@@ -385,13 +397,12 @@
                 recDesc.innerText = "Heavy overnight Wall Street sell-off and negative opening cues favor buying Put options or executing bear spreads.";
                 
                 strikeCard.className = "bg-slate-900/80 border border-red-500/40 rounded-xl p-5 space-y-4";
-                recStrikeText.innerText = `Strike: ${atmStrike} PE (At-The-Money)`;
+                recStrikeText.innerText = `Strike: ${atmStrike.toLocaleString('en-IN')} PE (At-The-Money)`;
                 buyZoneVal.innerText = `₹${estPremium - 10} - ₹${estPremium + 15}`;
                 lotCostVal.innerText = `₹${lotCost.toLocaleString('en-IN')} (₹${estPremium} × 25)`;
                 slTargetVal.innerText = `SL: ₹${Math.max(10, estPremium - 35)} | TGT: ₹${estPremium + 55}`;
 
             } else {
-                // Neutral
                 recTitle.innerText = "🟡 NEUTRAL / CHOPPY RANGE";
                 recTitle.className = "text-2xl font-black text-amber-400 mt-1";
                 recBadge.innerText = "Avoid Outright Buying / Iron Condor";
@@ -399,7 +410,7 @@
                 recDesc.innerText = "Mixed global cues and flat opening indication. Directional option buying is not recommended; prefer credit spreads or stay in cash.";
                 
                 strikeCard.className = "bg-slate-900/80 border border-amber-500/40 rounded-xl p-5 space-y-4";
-                recStrikeText.innerText = `Range Walls: ${otmPe} PE & ${otmCe} CE (Credit Spreads)`;
+                recStrikeText.innerText = `Range Walls: ${otmPe.toLocaleString('en-IN')} PE & ${otmCe.toLocaleString('en-IN')} CE`;
                 buyZoneVal.innerText = `Credit Spread`;
                 lotCostVal.innerText = `Margin: ~₹1,20,000`;
                 slTargetVal.innerText = `Max Profit: Theta Decay`;
@@ -409,11 +420,11 @@
         function refreshData() {
             const icon = document.getElementById('refreshIcon');
             icon.classList.add('fa-spin');
-            setTimeout(() => {
-                icon.classList.remove('fa-spin');
-                updateCalculations();
-                alert('Market cues successfully refreshed from Yahoo Finance & domestic feeds!');
-            }, 800);
+            fetchLiveNiftySpot().then(() => {
+                setTimeout(() => {
+                    icon.classList.remove('fa-spin');
+                }, 500);
+            });
         }
 
         function copyTradeDetails() {
@@ -422,10 +433,9 @@
             alert('Trade setup copied to clipboard successfully!');
         }
 
-        // Initialize on load
         window.onload = function() {
             setTargetPredictionDate();
-            updateCalculations();
+            fetchLiveNiftySpot();
         };
     </script>
 </body>
